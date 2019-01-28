@@ -1,13 +1,13 @@
-lecture-02 <img src="https://slu-soc5650.github.io/images/logo.png" align="right" />
+lecture-03 <img src="https://slu-soc5650.github.io/images/logo.png" align="right" />
 ===========================================================
-[![](https://img.shields.io/badge/semester-spring%202019-blue.svg)](https://github.com/slu-soc5650/lecture-02)
-[![](https://img.shields.io/badge/release-lecture-green.svg)](https://github.com/slu-soc5650/lecture-02)
-[![](https://img.shields.io/github/release/slu-soc5650/lecture-02.svg?label=version)](https://github.com/slu-soc5650/lecture-02/releases)
-[![](https://img.shields.io/github/last-commit/slu-soc5650/lecture-02.svg)](https://github.com/slu-soc5650/lecture-02/commits/master)
-[![](https://img.shields.io/github/repo-size/slu-soc5650/lecture-02.svg)](https://github.com/slu-soc5650/lecture-02)
+[![](https://img.shields.io/badge/semester-spring%202019-blue.svg)](https://github.com/slu-soc5650/lecture-03)
+[![](https://img.shields.io/badge/release-lecture-green.svg)](https://github.com/slu-soc5650/lecture-03)
+[![](https://img.shields.io/github/release/slu-soc5650/lecture-03.svg?label=version)](https://github.com/slu-soc5650/lecture-03/releases)
+[![](https://img.shields.io/github/last-commit/slu-soc5650/lecture-03.svg)](https://github.com/slu-soc5650/lecture-03/commits/master)
+[![](https://img.shields.io/github/repo-size/slu-soc5650/lecture-03.svg)](https://github.com/slu-soc5650/lecture-03)
 
 ### Support and Feedback
-Students currently enrolled in this course should seek assistance on Slack and/or during in-person office hours before posting questions or reporting possible bugs. Others should see my general policy on [support](.github/SUPPORT.md). If you have found a typo or have a suggestion, please check the [contribution guidelines](.github/CONTRIBUTING.md) guidelines before opening an issue. Please note that contributions to this project are governed by a [Contributor Code of Conduct](.github/CODE_OF_CONDUCT.md) and, for Saint Louis University community members, our various University policies.
+Students currently enrolled in this course should seek assistance on the [Discussion Forums](http://discuss.slu-ssds.org) and/or during in-person office hours before posting questions or reporting possible bugs. Others should see my general policy on [support](.github/SUPPORT.md). If you have found a typo or have a suggestion, please check the [contribution guidelines](.github/CONTRIBUTING.md) guidelines before opening an issue. Please note that contributions to this project are governed by a [Contributor Code of Conduct](.github/CODE_OF_CONDUCT.md) and, for Saint Louis University community members, our various University policies.
 
 ### Additional Materials
 Source `.tex` files for the handouts and assignments for this lecture are available in the [`extras/`](/extras) folder. These are intended for instructors who wish to use course materials with attribution and for my students who are moving on to present and teach about these topics.
