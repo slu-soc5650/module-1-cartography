@@ -1,0 +1,166 @@
+---
+title: "Meeting-03 Meeting Notebook"
+author: "Christopher Prener, Ph.D."
+date: '(`r format(Sys.time(), "%B %d, %Y")`)'
+output: 
+  github_document: default
+  html_notebook: default 
+always_allow_html: yes
+---
+
+## Introduction
+This notebook provides a walk-through of the example code used in class.
+
+## Dependencies
+This notebook requires the following packages:
+
+```{r load-packages}
+# tidyverse packages
+library(ggplot2)       # static mapping
+
+# mapping packages
+library(mapview)      # preview spatial data
+library(sf)           # spatial tools
+
+# other packages
+library(here)         # file path management
+library(RColorBrewer) # color brewer palettes
+library(viridis)      # viridis color palettes
+```
+
+We'll also need a custom function that Chris has written for creating map breaks: 
+
+```{r load-functions}
+source(here("source", "map_breaks.R"))
+```
+
+The `source()` function executes "R script" files, which can either be used to define functions used in a project or run a subset of other code contained in that file.
+
+## Load Data
+We'll be using two sets of data today, neighborhood boundaries and the regions of St. Louis City that are historic districts. Both data sets are included in the `data/exercise_data` folder:
+
+```{r load-data}
+city <- st_read(here("data", "STL_BOUNDARY_City.geojson"))
+nhood <- st_read(here("data", "exercise_data", "STL_DEMOGRAPHICS_Nhoods", "STL_DEMOGRAPHICS_Nhoods.shp"))
+historic <- st_read(here("data", "exercise_data", "STL_HISTORICAL_Districts", "STL_HISTORICAL_Districts.shp"))
+```
+
+## Manually Applying Colors
+One task when we are working with multi-layer maps is arbitrarily setting the colors we assign to a given layer. We can use the `fill` argument in `geom_sf` *outside* of an aesthetic mapping to set the fill, and the `color` argument to set the hue of the border colors.
+
+```{r historic-districts-1}
+p1 <- ggplot() +
+  geom_sf(data = historic, fill = "#ffe4e1", color = "#a9a9a9") +
+  labs(
+    title = "Historic Districts",
+    subtitle = "City of St. Louis",
+    caption = "Data via City of St. Louis"
+  )
+
+p1
+```
+
+Now, take a moment and use [ColorHexa.com](https://www.colorhexa.com) to change the fill to a *cool* color and select a darker shade of gray for the border:
+
+```{r historic-districts-2}
+p2 <- ggplot() +
+  geom_sf(data = historic, fill = , color = ) +
+  labs(
+    title = "Historic Districts",
+    subtitle = "City of St. Louis",
+    caption = "Data via City of St. Louis"
+  )
+
+p2
+```
+
+## Layering with ggplot2
+The maps we made above help identify the historic districts, but they are devoid of context because the lack the boundary for the City of St. Louis. Let's go ahead an add that. We'll set the fill for the city boundary to white so that our historic districts really stand out.
+
+```{r historic-districts-3}
+p3 <- ggplot() +
+  geom_sf() +
+  geom_sf() +
+  labs(
+    title = "Historic Districts",
+    subtitle = "City of St. Louis",
+    caption = "Data via City of St. Louis"
+  )
+
+p3
+```
+
+Next, we'll overlay the historic districts on the City's neighborhood boundaries to add some additional context. We'll set the fill for the neighborhood boundaries to `NA` so that they are hollow, use a light gray color, and set the size to `.2` so that they are thinner than the default width. Finally, we'll add the `city` data on top as well so that the City's boundary stands out.
+
+```{r historic-districts-4}
+p4 <- ggplot() +
+  geom_sf() +
+  geom_sf() +
+  geom_sf() +
+  geom_sf() +
+  labs(
+    title = "Historic Districts",
+    subtitle = "City of St. Louis",
+    caption = "Data via City of St. Louis"
+  )
+
+p4
+```
+
+## Thematic Mapping with viridis and Color Brewer
+The other topic for this week is to create maps that have different color ramps. Last week, we introduce the `virids` color palettes. We can illustrate that for review by mapping the 1950 populations of St. Louis's neighborhoods, with the addition of a ground layer representing the city boundary:
+
+```{r, nhood-pop-1}
+p5 <- ggplot() +
+  geom_sf(data = city, fill = "#ffffff", color = NA) +
+  geom_sf() +
+  geom_sf(data = city, fill = NA, color = "#2a2a2a", size = .9) +
+  scale_fill_viridis(name = "Population Density\nper Square Kilometer") +
+  labs(
+    title = "1950 Neighborhood Populations",
+    subtitle = "City of St. Louis",
+    caption = "Data via NHGIS and Christopher Prener, PhD"
+  )
+
+p5
+```
+
+The viridis package contains four other palettes: "magma", "plasma", and "inferno" all look somewhat similar, and then the alternate "cividis" palette. You can specify them with the `option` argument in `scale_fill_viridis`:
+
+```{r, nhood-pop-2}
+p6 <- ggplot() +
+  geom_sf(data = city, fill = "#ffffff", color = NA) +
+  geom_sf(data = nhood, mapping = aes(fill = pop50_den)) +
+  geom_sf(data = city, fill = NA, color = "#2a2a2a", size = .9) +
+  scale_fill_viridis(option = , name = "Population Density\nper Square Kilometer") +
+  labs(
+    title = "1950 Neighborhood Populations",
+    subtitle = "City of St. Louis",
+    caption = "Data via NHGIS and Christopher Prener, PhD"
+  )
+
+p6
+```
+
+This map is a bit hard to read because the color ramp is continuous. We can bin our data using one of a number of algorithms - "equal", "pretty", "quantile", "fisher", and "jenks" are the best options to choose from. Typically we don't want more than 5 or 6 breaks. We can also switch to using `RColorBrewer` instead.
+
+```{r, nhood-pop-3}
+## create breaks
+nhood <- map_breaks()
+
+## map binned data
+p7 <- ggplot() +
+  geom_sf(data = city, fill = "#ffffff", color = NA) +
+  geom_sf(data = nhood, mapping = aes(fill = )) +
+  geom_sf(data = city, fill = NA, color = "#2a2a2a", size = .9) +
+  scale_fill_brewer(palette = "RdPu", name = "Population Density\nper Square Kilometer") +
+  labs(
+    title = "1950 Neighborhood Populations",
+    subtitle = "City of St. Louis",
+    caption = "Data via NHGIS and Christopher Prener, PhD"
+  )
+
+p7
+```
+
+You can use the `display.brewer.all()` function to get a preview of other options in the `RColorBrewer` package. Take a few minutes to modify `p7` using different palette options and approaches to making breaks.
