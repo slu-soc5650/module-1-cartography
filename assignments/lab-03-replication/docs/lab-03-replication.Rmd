@@ -1,0 +1,92 @@
+---
+title: "Lab-03 Replication"
+author: "Christopher Prener, Ph.D."
+date: '(`r format(Sys.time(), "%B %d, %Y")`)'
+output: 
+  github_document: default
+  html_notebook: default 
+always_allow_html: yes
+---
+
+## Introduction
+This notebook provides a replication of Lab-03.
+
+## Dependencies
+This notebook requires the following packages:
+
+```{r load-packages}
+# tidyverse packages
+library(ggplot2)       # static mapping
+
+# mapping packages
+library(mapview)      # preview spatial data
+library(sf)           # spatial tools
+
+# other packages
+library(here)         # file path management
+library(RColorBrewer) # color brewer palettes
+library(viridis)      # viridis color palettes
+```
+
+We'll also need a custom function that Chris has written for creating map breaks: 
+
+```{r load-functions}
+source(here("source", "map_breaks.R"))
+```
+
+## Load Data
+The data for this assigment are all in the `data/` folder, and include a number of different layers:
+
+```{r load-data}
+# city boundary
+stl_boundary <- st_read(here("data", "STL_BOUNDARY_City.geojson"))
+
+# water layers
+il_hydro <- st_read(here("data", "IL_HYDRO_Mississippi.geojson"))
+stl_hydro <- st_read(here("data", "STL_HYDRO_AreaWater.geojson"))
+
+# highways
+highways <- st_read(here("data", "STL_TRANS_PrimaryRoads", "STL_TRANS_PrimaryRoads.shp"))
+
+# owner occupied housing
+housing <- st_read(here("data", "STL_HOUSING_OwnerOccupied.geojson"))
+```
+
+We're now ready to map these data.
+
+## Part 1 - Exploration
+In my console, I've used `mapview::mapview()` to explore each of these different data sets. All are polygon data except for the highways, which are line data.
+
+## Part 2 - Mapping
+The following code chunk creates map breaks using the "fisher" approach, and then layers data on water features and highways over the census tracts showing the percent of homes that are occupied by their owners. 
+
+```{r, housing-map}
+## create breaks
+housing <- map_breaks(housing, var = "pct_owner_occupied", newvar = "map_breaks",
+                    style = "fisher", classes = 5, dig_lab = 2)
+
+## map binned data
+p1 <- ggplot() +
+  geom_sf(data = stl_boundary, fill = "#ffffff", color = NA) +
+  geom_sf(data = housing, mapping = aes(fill = map_breaks)) +
+  geom_sf(data = il_hydro, fill = "#d4f1f9") +
+  geom_sf(data = stl_hydro, fill = "#d4f1f9") +
+  geom_sf(data = highways, color = "#000000") +
+  geom_sf(data = stl_boundary, fill = NA, color = "#2a2a2a", size = .6) +
+  scale_fill_brewer(palette = "Greens", name = "% Owner Occupied") +
+  labs(
+    title = "% of Housing Occupied by Homeowners",
+    subtitle = "City of St. Louis, 2010",
+    caption = "Data via U.S. Census Bureau\nMap by Christopher Prener, PhD"
+  )
+
+p1
+```
+
+The map shows that owner occupied rates are highest in the southwest portion of St. Louis. We'll save it using the following code:
+
+```{r, save-plot}
+ggsave(plot = p1, filename = here("results", "owner_occupied_housing.png"))
+```
+
+The map is now saved for dissemination!
