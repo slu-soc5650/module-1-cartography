@@ -7,7 +7,7 @@ module-1-cartography <img src="https://slu-soc5650.github.io/images/icon_hu137d4
 [![](https://img.shields.io/github/repo-size/slu-soc5650/module-1-cartography.svg)](https://github.com/slu-soc5650/module-1-cartography)
 
 ## Module 1 - Course Introduction
-These materials correspond to Meeting 1-2 for SOC 4650 and SOC 5650.
+These materials correspond to Meeting 1-3 for SOC 4650 and SOC 5650.
 
 ## Lesson Quick Start
 ### Install Software
