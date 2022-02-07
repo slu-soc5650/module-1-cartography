@@ -1,7 +1,7 @@
-Meeting-03 Meeting Notebook - Complete
+Meeting 1-3 Notebook - Complete
 ================
 Christopher Prener, Ph.D.
-(February 15, 2021)
+(February 07, 2022)
 
 ## Introduction
 
@@ -14,25 +14,25 @@ This notebook requires the following packages:
 ``` r
 # tidyverse packages
 library(ggplot2)       # static mapping
-
-# mapping packages
-library(mapview)      # preview spatial data
 ```
 
-    ## GDAL version >= 3.1.0 | setting mapviewOptions(fgb = TRUE)
+    ## Warning in register(): Can't find generic `scale_type` in package ggplot2 to
+    ## register S3 method.
 
 ``` r
+# mapping packages
+library(mapview)      # preview spatial data
 library(sf)           # spatial tools
 ```
 
-    ## Linking to GEOS 3.8.1, GDAL 3.1.4, PROJ 6.3.1
+    ## Linking to GEOS 3.8.1, GDAL 3.2.1, PROJ 7.2.1; sf_use_s2() is TRUE
 
 ``` r
 # other packages
 library(here)         # file path management
 ```
 
-    ## here() starts at /Users/chris/GitHub/slu-soc5650/content/module-1-cartography
+    ## here() starts at /Users/prenercg/GitHub/slu-soc5650/module-1-cartography
 
 ``` r
 library(RColorBrewer) # color brewer palettes
@@ -62,34 +62,40 @@ are included in the `data/exercise_data` folder:
 city <- st_read(here("data", "STL_BOUNDARY_City.geojson"))
 ```
 
-    ## Reading layer `STL_BOUNDARY_City' from data source `/Users/chris/GitHub/slu-soc5650/content/module-1-cartography/data/STL_BOUNDARY_City.geojson' using driver `GeoJSON'
+    ## Reading layer `STL_BOUNDARY_City' from data source 
+    ##   `/Users/prenercg/GitHub/slu-soc5650/module-1-cartography/data/STL_BOUNDARY_City.geojson' 
+    ##   using driver `GeoJSON'
     ## Simple feature collection with 1 feature and 2 fields
-    ## geometry type:  MULTIPOLYGON
-    ## dimension:      XY
-    ## bbox:           xmin: 733360 ymin: 4268394 xmax: 746157.1 ymax: 4295511
-    ## projected CRS:  NAD83 / UTM zone 15N
+    ## Geometry type: MULTIPOLYGON
+    ## Dimension:     XY
+    ## Bounding box:  xmin: 733360 ymin: 4268394 xmax: 746157.1 ymax: 4295511
+    ## Projected CRS: NAD83 / UTM zone 15N
 
 ``` r
 nhood <- st_read(here("data", "exercise_data", "STL_DEMOGRAPHICS_Nhoods", "STL_DEMOGRAPHICS_Nhoods.shp"))
 ```
 
-    ## Reading layer `STL_DEMOGRAPHICS_Nhoods' from data source `/Users/chris/GitHub/slu-soc5650/content/module-1-cartography/data/exercise_data/STL_DEMOGRAPHICS_Nhoods/STL_DEMOGRAPHICS_Nhoods.shp' using driver `ESRI Shapefile'
+    ## Reading layer `STL_DEMOGRAPHICS_Nhoods' from data source 
+    ##   `/Users/prenercg/GitHub/slu-soc5650/module-1-cartography/data/exercise_data/STL_DEMOGRAPHICS_Nhoods/STL_DEMOGRAPHICS_Nhoods.shp' 
+    ##   using driver `ESRI Shapefile'
     ## Simple feature collection with 79 features and 5 fields
-    ## geometry type:  MULTIPOLYGON
-    ## dimension:      XY
-    ## bbox:           xmin: 733361.8 ymin: 4268512 xmax: 745417.9 ymax: 4295501
-    ## projected CRS:  UTM_Zone_15_Northern_Hemisphere
+    ## Geometry type: MULTIPOLYGON
+    ## Dimension:     XY
+    ## Bounding box:  xmin: 733361.8 ymin: 4268512 xmax: 745417.9 ymax: 4295501
+    ## Projected CRS: UTM_Zone_15_Northern_Hemisphere
 
 ``` r
 historic <- st_read(here("data", "exercise_data", "STL_HISTORICAL_Districts", "STL_HISTORICAL_Districts.shp"))
 ```
 
-    ## Reading layer `STL_HISTORICAL_Districts' from data source `/Users/chris/GitHub/slu-soc5650/content/module-1-cartography/data/exercise_data/STL_HISTORICAL_Districts/STL_HISTORICAL_Districts.shp' using driver `ESRI Shapefile'
+    ## Reading layer `STL_HISTORICAL_Districts' from data source 
+    ##   `/Users/prenercg/GitHub/slu-soc5650/module-1-cartography/data/exercise_data/STL_HISTORICAL_Districts/STL_HISTORICAL_Districts.shp' 
+    ##   using driver `ESRI Shapefile'
     ## Simple feature collection with 102 features and 4 fields
-    ## geometry type:  MULTIPOLYGON
-    ## dimension:      XY
-    ## bbox:           xmin: 734470.2 ymin: 4269761 xmax: 745405.8 ymax: 4288348
-    ## projected CRS:  NAD83 / UTM zone 15N
+    ## Geometry type: MULTIPOLYGON
+    ## Dimension:     XY
+    ## Bounding box:  xmin: 734470.2 ymin: 4269761 xmax: 745405.8 ymax: 4288348
+    ## Projected CRS: NAD83 / UTM zone 15N
 
 ## Manually Applying Colors
 
@@ -110,7 +116,7 @@ p1 <- ggplot() +
 p1
 ```
 
-![](meeting-03-complete_files/figure-gfm/historic-districts-1-1.png)<!-- -->
+![](meeting-1-3-complete_files/figure-gfm/historic-districts-1-1.png)<!-- -->
 
 Now, take a moment and use [ColorHexa.com](https://www.colorhexa.com) to
 change the fill to a *cool* color and select a darker shade of gray for
@@ -128,7 +134,7 @@ p2 <- ggplot() +
 p2
 ```
 
-![](meeting-03-complete_files/figure-gfm/historic-districts-2-1.png)<!-- -->
+![](meeting-1-3-complete_files/figure-gfm/historic-districts-2-1.png)<!-- -->
 
 ## Layering with ggplot2
 
@@ -150,7 +156,7 @@ p3 <- ggplot() +
 p3
 ```
 
-![](meeting-03-complete_files/figure-gfm/historic-districts-3-1.png)<!-- -->
+![](meeting-1-3-complete_files/figure-gfm/historic-districts-3-1.png)<!-- -->
 
 Next, we’ll overlay the historic districts on the City’s neighborhood
 boundaries to add some additional context. We’ll set the fill for the
@@ -174,7 +180,7 @@ p4 <- ggplot() +
 p4
 ```
 
-![](meeting-03-complete_files/figure-gfm/historic-districts-4-1.png)<!-- -->
+![](meeting-1-3-complete_files/figure-gfm/historic-districts-4-1.png)<!-- -->
 
 ## Thematic Mapping with viridis and Color Brewer
 
@@ -199,7 +205,7 @@ p5 <- ggplot() +
 p5
 ```
 
-![](meeting-03-complete_files/figure-gfm/nhood-pop-1-1.png)<!-- -->
+![](meeting-1-3-complete_files/figure-gfm/nhood-pop-1-1.png)<!-- -->
 
 The viridis package contains four other palettes: “magma”, “plasma”, and
 “inferno” all look somewhat similar, and then the alternate “cividis”
@@ -221,7 +227,7 @@ p6 <- ggplot() +
 p6
 ```
 
-![](meeting-03-complete_files/figure-gfm/nhood-pop-2-1.png)<!-- -->
+![](meeting-1-3-complete_files/figure-gfm/nhood-pop-2-1.png)<!-- -->
 
 This map is a bit hard to read because the color ramp is continuous. We
 can bin our data using one of a number of algorithms - “equal”,
@@ -249,7 +255,7 @@ p7 <- ggplot() +
 p7
 ```
 
-![](meeting-03-complete_files/figure-gfm/nhood-pop-3-1.png)<!-- -->
+![](meeting-1-3-complete_files/figure-gfm/nhood-pop-3-1.png)<!-- -->
 
 You can use the `display.brewer.all()` function to get a preview of
 other options in the `RColorBrewer` package. Take a few minutes to

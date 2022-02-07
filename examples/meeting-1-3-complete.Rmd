@@ -1,5 +1,5 @@
 ---
-title: "Meeting-03 Meeting Notebook - Complete"
+title: "Meeting 1-3 Notebook - Complete"
 author: "Christopher Prener, Ph.D."
 date: '(`r format(Sys.time(), "%B %d, %Y")`)'
 output: 

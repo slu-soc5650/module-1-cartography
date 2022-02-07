@@ -1,11 +1,11 @@
-Lab-03 Replication
+Lab 1-3 Replication
 ================
 Christopher Prener, Ph.D.
-(February 15, 2021)
+(February 07, 2022)
 
 ## Introduction
 
-This notebook provides a replication of Lab-03.
+This notebook provides a replication of Lab 1-3.
 
 ## Dependencies
 
@@ -14,25 +14,25 @@ This notebook requires the following packages:
 ``` r
 # tidyverse packages
 library(ggplot2)       # static mapping
-
-# mapping packages
-library(mapview)      # preview spatial data
 ```
 
-    ## GDAL version >= 3.1.0 | setting mapviewOptions(fgb = TRUE)
+    ## Warning in register(): Can't find generic `scale_type` in package ggplot2 to
+    ## register S3 method.
 
 ``` r
+# mapping packages
+library(mapview)      # preview spatial data
 library(sf)           # spatial tools
 ```
 
-    ## Linking to GEOS 3.8.1, GDAL 3.1.4, PROJ 6.3.1
+    ## Linking to GEOS 3.8.1, GDAL 3.2.1, PROJ 7.2.1; sf_use_s2() is TRUE
 
 ``` r
 # other packages
 library(here)         # file path management
 ```
 
-    ## here() starts at /Users/chris/GitHub/slu-soc5650/content/module-1-cartography/assignments/lab-03-replication
+    ## here() starts at /Users/prenercg/GitHub/slu-soc5650/module-1-cartography/assignments/lab-1-3-replication
 
 ``` r
 library(RColorBrewer) # color brewer palettes
@@ -58,59 +58,69 @@ number of different layers:
 stl_boundary <- st_read(here("data", "STL_BOUNDARY_City.geojson"))
 ```
 
-    ## Reading layer `STL_BOUNDARY_City' from data source `/Users/chris/GitHub/slu-soc5650/content/module-1-cartography/assignments/lab-03-replication/data/STL_BOUNDARY_City.geojson' using driver `GeoJSON'
+    ## Reading layer `STL_BOUNDARY_City' from data source 
+    ##   `/Users/prenercg/GitHub/slu-soc5650/module-1-cartography/assignments/lab-1-3-replication/data/STL_BOUNDARY_City.geojson' 
+    ##   using driver `GeoJSON'
     ## Simple feature collection with 1 feature and 2 fields
-    ## geometry type:  MULTIPOLYGON
-    ## dimension:      XY
-    ## bbox:           xmin: 733360 ymin: 4268394 xmax: 746157.1 ymax: 4295511
-    ## projected CRS:  NAD83 / UTM zone 15N
+    ## Geometry type: MULTIPOLYGON
+    ## Dimension:     XY
+    ## Bounding box:  xmin: 733360 ymin: 4268394 xmax: 746157.1 ymax: 4295511
+    ## Projected CRS: NAD83 / UTM zone 15N
 
 ``` r
 # water layers
 il_hydro <- st_read(here("data", "IL_HYDRO_Mississippi.geojson"))
 ```
 
-    ## Reading layer `IL_HYDRO_Mississippi' from data source `/Users/chris/GitHub/slu-soc5650/content/module-1-cartography/assignments/lab-03-replication/data/IL_HYDRO_Mississippi.geojson' using driver `GeoJSON'
+    ## Reading layer `IL_HYDRO_Mississippi' from data source 
+    ##   `/Users/prenercg/GitHub/slu-soc5650/module-1-cartography/assignments/lab-1-3-replication/data/IL_HYDRO_Mississippi.geojson' 
+    ##   using driver `GeoJSON'
     ## Simple feature collection with 4 features and 8 fields
-    ## geometry type:  POLYGON
-    ## dimension:      XY
-    ## bbox:           xmin: 739063 ymin: 4268279 xmax: 746617.9 ymax: 4295339
-    ## projected CRS:  NAD83 / UTM zone 15N
+    ## Geometry type: POLYGON
+    ## Dimension:     XY
+    ## Bounding box:  xmin: 739063 ymin: 4268279 xmax: 746617.9 ymax: 4295339
+    ## Projected CRS: NAD83 / UTM zone 15N
 
 ``` r
 stl_hydro <- st_read(here("data", "STL_HYDRO_AreaWater.geojson"))
 ```
 
-    ## Reading layer `STL_HYDRO_AreaWater' from data source `/Users/chris/GitHub/slu-soc5650/content/module-1-cartography/assignments/lab-03-replication/data/STL_HYDRO_AreaWater.geojson' using driver `GeoJSON'
+    ## Reading layer `STL_HYDRO_AreaWater' from data source 
+    ##   `/Users/prenercg/GitHub/slu-soc5650/module-1-cartography/assignments/lab-1-3-replication/data/STL_HYDRO_AreaWater.geojson' 
+    ##   using driver `GeoJSON'
     ## Simple feature collection with 16 features and 2 fields
-    ## geometry type:  POLYGON
-    ## dimension:      XY
-    ## bbox:           xmin: 733468.5 ymin: 4268394 xmax: 746157.1 ymax: 4295418
-    ## projected CRS:  NAD83 / UTM zone 15N
+    ## Geometry type: POLYGON
+    ## Dimension:     XY
+    ## Bounding box:  xmin: 733468.5 ymin: 4268394 xmax: 746157.1 ymax: 4295418
+    ## Projected CRS: NAD83 / UTM zone 15N
 
 ``` r
 # highways
 highways <- st_read(here("data", "STL_TRANS_PrimaryRoads", "STL_TRANS_PrimaryRoads.shp"))
 ```
 
-    ## Reading layer `STL_TRANS_PrimaryRoads' from data source `/Users/chris/GitHub/slu-soc5650/content/module-1-cartography/assignments/lab-03-replication/data/STL_TRANS_PrimaryRoads/STL_TRANS_PrimaryRoads.shp' using driver `ESRI Shapefile'
+    ## Reading layer `STL_TRANS_PrimaryRoads' from data source 
+    ##   `/Users/prenercg/GitHub/slu-soc5650/module-1-cartography/assignments/lab-1-3-replication/data/STL_TRANS_PrimaryRoads/STL_TRANS_PrimaryRoads.shp' 
+    ##   using driver `ESRI Shapefile'
     ## Simple feature collection with 9 features and 4 fields
-    ## geometry type:  MULTILINESTRING
-    ## dimension:      XY
-    ## bbox:           xmin: 733482 ymin: 4270554 xmax: 745666.9 ymax: 4294751
-    ## projected CRS:  NAD83 / UTM zone 15N
+    ## Geometry type: MULTILINESTRING
+    ## Dimension:     XY
+    ## Bounding box:  xmin: 733482 ymin: 4270554 xmax: 745666.9 ymax: 4294751
+    ## Projected CRS: NAD83 / UTM zone 15N
 
 ``` r
 # owner occupied housing
 housing <- st_read(here("data", "STL_HOUSING_OwnerOccupied.geojson"))
 ```
 
-    ## Reading layer `STL_HOUSING_OwnerOccupied' from data source `/Users/chris/GitHub/slu-soc5650/content/module-1-cartography/assignments/lab-03-replication/data/STL_HOUSING_OwnerOccupied.geojson' using driver `GeoJSON'
+    ## Reading layer `STL_HOUSING_OwnerOccupied' from data source 
+    ##   `/Users/prenercg/GitHub/slu-soc5650/module-1-cartography/assignments/lab-1-3-replication/data/STL_HOUSING_OwnerOccupied.geojson' 
+    ##   using driver `GeoJSON'
     ## Simple feature collection with 106 features and 5 fields
-    ## geometry type:  MULTIPOLYGON
-    ## dimension:      XY
-    ## bbox:           xmin: 733360 ymin: 4268410 xmax: 746170.8 ymax: 4295511
-    ## projected CRS:  NAD83 / UTM zone 15N
+    ## Geometry type: MULTIPOLYGON
+    ## Dimension:     XY
+    ## Bounding box:  xmin: 733360 ymin: 4268410 xmax: 746170.8 ymax: 4295511
+    ## Projected CRS: NAD83 / UTM zone 15N
 
 We’re now ready to map these data.
 
@@ -149,7 +159,7 @@ p1 <- ggplot() +
 p1
 ```
 
-![](lab-03-replication_files/figure-gfm/housing-map-1.png)<!-- -->
+![](lab-1-3-replication_files/figure-gfm/housing-map-1.png)<!-- -->
 
 The map shows that owner occupied rates are highest in the southwest
 portion of St. Louis. We’ll save it using the following code:
